@@ -4,25 +4,27 @@ import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { BsFillPencilFill } from 'react-icons/bs';
 import { login, logout, onUserStateChange } from '../../api/firebase';
 import { useEffect, useState } from 'react';
+import User from './User';
+import Button from './Button';
+import { useAuthContext } from '../context/AuthContext';
 
 export default function NavBar() {
-  const [user, setUser] = useState();
+  const { user, login, logout } = useAuthContext();
+  // const [user, setUser] = useState();
 
-  useEffect(() => {
-    onUserStateChange((user) => {
-      console.log('>>> user in useEffect: ', user);
-      setUser(user);
-    });
-  }, []);
+  // useEffect(() => {
+  //   onUserStateChange((user) => {
+  //     console.log('==== user in useEffect', user);
+  //     setUser(user);
+  //   });
+  // }, []);
 
   const handleLogin = async () => {
     const user = await login();
-    // setUser(user);
   };
 
   const handleLogout = async () => {
     const user = await logout();
-    // setUser('');
   };
 
   return (
@@ -33,14 +35,19 @@ export default function NavBar() {
       </Link>
       <nav className='flex items-center gap-4 font-semibold'>
         <Link to='/products'>Products</Link>
-        <Link to='/carts'>
-          <AiOutlineShoppingCart className='text-4xl' />
-        </Link>
-        <Link to='/products/new'>
-          <BsFillPencilFill />
-        </Link>
-        {!user && <button onClick={handleLogin}>Login</button>}
-        {user && <button onClick={handleLogout}>Logout</button>}
+        {user && (
+          <Link to='/carts'>
+            <AiOutlineShoppingCart className='text-4xl' />
+          </Link>
+        )}
+        {user && user.isAdmin && (
+          <Link to='/products/new'>
+            <BsFillPencilFill />
+          </Link>
+        )}
+        {user && <User user={user} />}
+        {!user && <Button text={'Login'} onClick={handleLogin} />}
+        {user && <Button text={'Logout'} onClick={handleLogout} />}
       </nav>
     </header>
   );
