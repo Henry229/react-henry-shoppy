@@ -2,8 +2,6 @@ import { Link } from 'react-router-dom';
 import { FiShoppingBag } from 'react-icons/fi';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { BsFillPencilFill } from 'react-icons/bs';
-import { login, logout, onUserStateChange } from '../../api/firebase';
-import { useEffect, useState } from 'react';
 import User from './User';
 import Button from './Button';
 import { useAuthContext } from '../context/AuthContext';
@@ -20,11 +18,11 @@ export default function NavBar() {
   // }, []);
 
   const handleLogin = async () => {
-    const user = await login();
+    await login();
   };
 
   const handleLogout = async () => {
-    const user = await logout();
+    await logout();
   };
 
   return (
