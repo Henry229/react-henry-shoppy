@@ -72,3 +72,26 @@ export async function addNewProduct(product, image) {
     options: product.options.split(','),
   });
 }
+
+// export async function getProducts() {
+//   return get(ref(database, 'products')) //
+//     .then((snapshot) => {
+//       if (snapshot.exists()) {
+//         return Object.values(snapshot.val()); //👍👍👍👍👍 Object.values는 array를 return
+//       }
+//       return [];
+//     });
+// }
+
+export async function getProducts() {
+  try {
+    const snapshot = await get(ref(database, 'products'));
+    if (snapshot.exists()) {
+      return Object.values(snapshot.val());
+    }
+    return [];
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
