@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
 import { FiShoppingBag } from 'react-icons/fi';
-import { AiOutlineShoppingCart } from 'react-icons/ai';
+
 import { BsFillPencilFill } from 'react-icons/bs';
 import User from './User';
 import Button from './Button';
 import { useAuthContext } from '../context/AuthContext';
+import CartStatus from '../\bCartStatus';
 
 export default function NavBar() {
   const { user, login, logout } = useAuthContext();
@@ -35,7 +36,7 @@ export default function NavBar() {
         <Link to='/products'>Products</Link>
         {user && (
           <Link to='/carts'>
-            <AiOutlineShoppingCart className='text-4xl' />
+            <CartStatus />
           </Link>
         )}
         {user && user.isAdmin && (

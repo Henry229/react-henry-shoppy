@@ -95,3 +95,27 @@ export async function getProducts() {
     throw error;
   }
 }
+
+export async function getCart(userId) {
+  try {
+    const snapshot = await get(ref(database, `carts/${userId}`));
+    const items = snapshot.val() || {};
+    return Object.values(items);
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+  // return get(ref(database, `carts/${userId}`)) //
+  //   .then((snapshot) => {
+  //     const items = snapshot.val() || {};
+  //     return Object.values(items);
+  //   });
+}
+
+export async function addOrUpdateToCart(userId, product) {
+  return set(ref(database, `carts/${userId}/${product.id}`), product);
+}
+
+export async function removeFromCart(userId, productId) {
+  return remove(ref(database, `carts/${userId}/${productId}`));
+}
